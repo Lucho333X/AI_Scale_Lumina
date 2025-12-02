@@ -1,0 +1,442 @@
+import React, { useState } from 'react';
+import { 
+  X, 
+  ArrowRight, 
+  Layers, 
+  Cpu, 
+  CreditCard, 
+  TrendingUp, 
+  Users, 
+  Fingerprint,
+  Box,
+  Shuffle
+} from 'lucide-react';
+
+// --- Data & Content (Extracted from PDF) ---
+
+const SECTIONS = {
+  OFFER: {
+    id: 'offer',
+    title: 'Golden Offer',
+    subtitle: 'La Propuesta de Valor',
+    icon: <Fingerprint size={24} />,
+    content: (
+      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="border-l-2 border-white/20 pl-6">
+          <h2 className="text-3xl md:text-5xl font-medium tracking-tight text-white mb-6">
+            The AI Avatar Content Engine
+          </h2>
+          <p className="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed">
+            Ayudamos a fundadores a construir una marca personal masiva usando su propio clon de IA.
+            <br /><br />
+            <span className="text-white">Publican contenido diario. Generan autoridad. Sin grabar ni un minuto.</span>
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/10">
+          <div>
+            <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2 block">Problema</span>
+            <p className="text-zinc-300">Los fundadores no tienen tiempo para grabar, pero necesitan contenido constante para vender.</p>
+          </div>
+          <div>
+            <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2 block">Solución</span>
+            <p className="text-zinc-300">Sistema "Done-For-You": Clonación de voz/cara + Estrategia editorial + Gestión total.</p>
+          </div>
+          <div>
+            <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2 block">Resultado</span>
+            <p className="text-zinc-300">30+ piezas de contenido al mes con 0 horas de esfuerzo del cliente.</p>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  CANVAS: {
+    id: 'canvas',
+    title: 'Business Model',
+    subtitle: 'Estructura Operativa',
+    icon: <Layers size={24} />,
+    content: (
+      <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
+        <div className="flex justify-between items-end border-b border-white/10 pb-6">
+          <h3 className="text-2xl text-white font-medium">Business Canvas</h3>
+          <span className="text-xs font-mono text-zinc-500">ESTRUCTURA DE AGENCIA DE IA</span>
+        </div>
+        
+        {/* Canvas Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-zinc-800 border border-zinc-800 rounded-lg overflow-hidden">
+          
+          {/* Key Partners */}
+          <div className="col-span-1 md:col-span-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
+            <div className="flex items-center gap-2 mb-4 text-zinc-500">
+              <Shuffle size={16} />
+              <span className="text-xs font-mono uppercase tracking-widest">Socios (Partners)</span>
+            </div>
+            <ul className="space-y-3 text-sm text-zinc-400">
+              <li className="flex gap-2"><span className="text-white">•</span> HeyGen / Synthesia (Motor IA)</li>
+              <li className="flex gap-2"><span className="text-white">•</span> ElevenLabs (Voz)</li>
+              <li className="flex gap-2"><span className="text-white">•</span> Freelance Editors Network</li>
+            </ul>
+          </div>
+
+          {/* Key Activities & Resources */}
+          <div className="col-span-1 md:col-span-1 bg-black p-0 flex flex-col gap-px">
+            <div className="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
+              <div className="flex items-center gap-2 mb-4 text-zinc-500">
+                <Cpu size={16} />
+                <span className="text-xs font-mono uppercase tracking-widest">Actividades</span>
+              </div>
+              <ul className="space-y-2 text-sm text-zinc-400">
+                <li>• Setup de Avatar</li>
+                <li>• Scripting & Estrategia</li>
+                <li>• Generación & Edición</li>
+              </ul>
+            </div>
+            <div className="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors border-t border-zinc-800">
+              <div className="flex items-center gap-2 mb-4 text-zinc-500">
+                <Box size={16} />
+                <span className="text-xs font-mono uppercase tracking-widest">Recursos</span>
+              </div>
+              <div className="text-sm text-zinc-400">Software IA, SOPs, Equipo Creativo.</div>
+            </div>
+          </div>
+
+          {/* Value Prop & Relationships */}
+          <div className="col-span-1 md:col-span-1 bg-black p-0 flex flex-col gap-px">
+            <div className="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
+               <div className="flex items-center gap-2 mb-4 text-zinc-500">
+                <Users size={16} />
+                <span className="text-xs font-mono uppercase tracking-widest">Relaciones</span>
+              </div>
+              <ul className="space-y-2 text-sm text-zinc-400">
+                <li>• Concierge Service</li>
+                <li>• Calls Mensuales</li>
+                <li>• Comunicación Asíncrona</li>
+              </ul>
+            </div>
+            <div className="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors border-t border-zinc-800">
+              <div className="flex items-center gap-2 mb-4 text-zinc-500">
+                <ArrowRight size={16} />
+                <span className="text-xs font-mono uppercase tracking-widest">Canales</span>
+              </div>
+              <div className="text-sm text-zinc-400">Warm Outbound, LinkedIn, Dogfooding (Nuestro propio avatar).</div>
+            </div>
+          </div>
+
+          {/* Segments */}
+          <div className="col-span-1 md:col-span-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
+            <div className="flex items-center gap-2 mb-4 text-zinc-500">
+              <Users size={16} />
+              <span className="text-xs font-mono uppercase tracking-widest">Segmentos</span>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <strong className="text-white block text-sm">Founders & CEOs</strong>
+                <p className="text-xs text-zinc-500 mt-1">Buscan autoridad sin perder tiempo.</p>
+              </div>
+              <div>
+                <strong className="text-white block text-sm">Consultores High-Ticket</strong>
+                <p className="text-xs text-zinc-500 mt-1">Venden con su imagen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Financials Bottom Row */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-800 border border-zinc-800 rounded-lg overflow-hidden">
+           <div className="bg-black p-6">
+              <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 block mb-2">Estructura de Costos</span>
+              <p className="text-white text-sm">Software (HeyGen/11Labs), Freelancers (Edición/Copy), Automatización (Make).</p>
+           </div>
+           <div className="bg-black p-6">
+              <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 block mb-2">Flujos de Ingreso</span>
+              <p className="text-white text-sm">Setup Fee ($1.5k) + Retainer Mensual ($3k - $6k) + Paquetes Puntuales.</p>
+           </div>
+        </div>
+      </div>
+    )
+  },
+  PRICING: {
+    id: 'pricing',
+    title: 'Financials',
+    subtitle: 'Precios & Unit Economics',
+    icon: <CreditCard size={24} />,
+    content: (
+      <div className="space-y-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
+        <div className="text-center md:text-left">
+           <h3 className="text-3xl text-white font-medium mb-2">Estructura de Ingresos</h3>
+           <p className="text-zinc-400">Modelo híbrido: High-Ticket Setup + Recurrencia Mensual (MRR)</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1 */}
+          <div className="group relative p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all duration-300">
+            <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+              <ArrowRight className="text-white" size={20} />
+            </div>
+            <span className="text-xs font-bold tracking-widest text-zinc-500 uppercase">Setup (One-Time)</span>
+            <div className="mt-4 mb-2">
+              <span className="text-3xl font-medium text-white">$1,500</span>
+              <span className="text-zinc-500 ml-1">- $3,000</span>
+            </div>
+            <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+              Cashflow inmediato. Cubre la creación del clon digital, setup de voz y estrategia inicial.
+            </p>
+            <ul className="space-y-2 text-xs text-zinc-500 font-mono">
+              <li className="flex items-center gap-2">OK: Grabación 2-5 min</li>
+              <li className="flex items-center gap-2">OK: Voz Clonada</li>
+              <li className="flex items-center gap-2">OK: Manual de Uso</li>
+            </ul>
+          </div>
+
+          {/* Card 2 - Main */}
+          <div className="group relative p-8 rounded-2xl bg-white text-black border border-white transition-all duration-300 transform md:-translate-y-4 md:shadow-2xl md:shadow-white/10">
+            <div className="absolute top-0 right-0 bg-black text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+              Core Revenue
+            </div>
+            <span className="text-xs font-bold tracking-widest text-zinc-400 uppercase">Monthly Retainer</span>
+            <div className="mt-4 mb-2">
+              <span className="text-4xl font-semibold">$3,000</span>
+              <span className="text-zinc-500 ml-1 font-medium">/ mes</span>
+            </div>
+            <p className="text-sm text-zinc-600 leading-relaxed mb-6 font-medium">
+              Ingreso recurrente. Gestión completa "Done-For-You" de la marca personal.
+            </p>
+            <ul className="space-y-3 text-xs text-zinc-600 font-mono border-t border-zinc-200 pt-4">
+              <li className="flex items-center gap-2">✓ 30 Videos Cortos</li>
+              <li className="flex items-center gap-2">✓ Gestión de Redes</li>
+              <li className="flex items-center gap-2">✓ Reporte Mensual</li>
+            </ul>
+          </div>
+
+          {/* Card 3 */}
+          <div className="group relative p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all duration-300">
+             <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+              <ArrowRight className="text-white" size={20} />
+            </div>
+            <span className="text-xs font-bold tracking-widest text-zinc-500 uppercase">Expansion</span>
+            <div className="mt-4 mb-2">
+              <span className="text-3xl font-medium text-white">+ Satélites</span>
+            </div>
+            <p className="text-sm text-zinc-400 leading-relaxed mb-6">
+              Líneas adicionales para aumentar el LTV (Life Time Value) del cliente.
+            </p>
+            <ul className="space-y-2 text-xs text-zinc-500 font-mono">
+              <li className="flex items-center gap-2">ADD: Outreach Videos</li>
+              <li className="flex items-center gap-2">ADD: UGC Virtual</li>
+              <li className="flex items-center gap-2">ADD: Corporate Training</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  ROADMAP: {
+    id: 'roadmap',
+    title: 'Execution',
+    subtitle: 'Roadmap de 90 Días',
+    icon: <TrendingUp size={24} />,
+    content: (
+      <div className="space-y-10 animate-in fade-in slide-in-from-right-8 duration-700">
+         <div className="flex justify-between items-end border-b border-white/10 pb-6">
+          <h3 className="text-2xl text-white font-medium">Plan de Implementación</h3>
+        </div>
+
+        <div className="space-y-0 relative border-l border-zinc-800 ml-4">
+          {/* Step 1 */}
+          <div className="pl-10 pb-12 relative group">
+            <span className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors ring-4 ring-black" />
+            <h4 className="text-lg text-white font-medium mb-1">Mes 1: Validación</h4>
+            <p className="text-zinc-500 text-sm mb-4">Construcción de cimientos y "Dogfooding".</p>
+            <div className="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
+              <ul className="space-y-2 text-sm text-zinc-400">
+                <li className="flex gap-3"><span className="text-white">01.</span> Definir Oferta Core y Paquetes.</li>
+                <li className="flex gap-3"><span className="text-white">02.</span> Crear caso de estudio propio (Tu Avatar).</li>
+                <li className="flex gap-3"><span className="text-white">03.</span> Warm Outbound a contactos cercanos.</li>
+              </ul>
+            </div>
+          </div>
+
+           {/* Step 2 */}
+          <div className="pl-10 pb-12 relative group">
+            <span className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors ring-4 ring-black" />
+            <h4 className="text-lg text-white font-medium mb-1">Mes 2: Tracción</h4>
+            <p className="text-zinc-500 text-sm mb-4">Primeros cierres y documentación.</p>
+            <div className="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
+              <ul className="space-y-2 text-sm text-zinc-400">
+                <li className="flex gap-3"><span className="text-white">01.</span> Cerrar 2-3 Clientes en Retainer.</li>
+                <li className="flex gap-3"><span className="text-white">02.</span> Crear SOPs (Standard Operating Procedures).</li>
+                <li className="flex gap-3"><span className="text-white">03.</span> Contratar Editor Freelance.</li>
+              </ul>
+            </div>
+          </div>
+
+           {/* Step 3 */}
+          <div className="pl-10 pb-0 relative group">
+            <span className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors ring-4 ring-black" />
+            <h4 className="text-lg text-white font-medium mb-1">Mes 3: Escala</h4>
+            <p className="text-zinc-500 text-sm mb-4">Optimización y automatización de ventas.</p>
+             <div className="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
+              <ul className="space-y-2 text-sm text-zinc-400">
+                <li className="flex gap-3"><span className="text-white">01.</span> Subir precios basado en resultados.</li>
+                <li className="flex gap-3"><span className="text-white">02.</span> Añadir oferta satélite (Outreach/UGC).</li>
+                <li className="flex gap-3"><span className="text-white">03.</span> Implementar embudo de ventas simple.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+};
+
+// --- Components ---
+
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8">
+      {/* Backdrop with heavy blur for premium feel */}
+      <div 
+        className="absolute inset-0 bg-black/60 backdrop-blur-2xl transition-opacity duration-300"
+        onClick={onClose}
+      />
+      
+      {/* Modal Content */}
+      <div className="relative w-full max-w-5xl h-auto max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-zinc-800 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-300 scrollbar-hide">
+        
+        {/* Close Button */}
+        <button 
+          onClick={onClose}
+          className="sticky top-0 right-0 float-right m-6 p-2 rounded-full bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 backdrop-blur-md transition-all z-50"
+        >
+          <X size={20} />
+        </button>
+
+        <div className="p-8 md:p-12 lg:p-16">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Card = ({ title, subtitle, icon, onClick, delay }) => (
+  <button 
+    onClick={onClick}
+    className={`group relative flex flex-col items-start justify-between h-64 md:h-80 p-8 w-full bg-zinc-950 border border-zinc-900 hover:border-zinc-700 transition-all duration-500 rounded-xl overflow-hidden text-left hover:bg-zinc-900/40`}
+    style={{ animationDelay: `${delay}ms` }}
+  >
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none" />
+    
+    <div className="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 group-hover:text-white group-hover:bg-zinc-800 transition-colors">
+      {icon}
+    </div>
+
+    <div className="relative z-10 mt-auto">
+      <h3 className="text-2xl md:text-3xl font-medium text-zinc-300 group-hover:text-white transition-colors tracking-tight">
+        {title}
+      </h3>
+      <p className="mt-2 text-sm text-zinc-600 group-hover:text-zinc-400 transition-colors font-medium tracking-wide uppercase">
+        {subtitle}
+      </p>
+    </div>
+
+    {/* Subtle arrow interaction */}
+    <div className="absolute bottom-8 right-8 opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 text-white">
+      <ArrowRight size={24} strokeWidth={1.5} />
+    </div>
+  </button>
+);
+
+export default function PresentationDeck() {
+  const [activeSection, setActiveSection] = useState(null);
+
+  return (
+    <div className="min-h-screen bg-black text-zinc-200 font-sans selection:bg-white selection:text-black overflow-x-hidden">
+      
+      {/* Background Ambience */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-white/[0.03] blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-white/[0.02] blur-[120px] rounded-full" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 py-12 md:py-24">
+        
+        {/* Header */}
+        <header className="mb-24 animate-in fade-in slide-in-from-top-8 duration-1000">
+          <div className="flex items-center gap-3 mb-6 opacity-60">
+             <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+             <span className="text-xs font-mono tracking-[0.2em] uppercase">Confidential Deck</span>
+          </div>
+          <h1 className="text-5xl md:text-8xl font-medium tracking-tighter text-white mb-6">
+            AI Content <br className="hidden md:block" />
+            <span className="text-zinc-500">Engine.</span>
+          </h1>
+          <p className="text-xl text-zinc-400 max-w-2xl font-light leading-relaxed">
+            Modelo de negocio para la agencia de avatares del futuro. 
+            Escalable. Automatizada. High-Ticket.
+          </p>
+        </header>
+
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200">
+          
+          {/* Main Large Card */}
+          <div className="lg:col-span-2">
+            <Card 
+              title={SECTIONS.OFFER.title} 
+              subtitle={SECTIONS.OFFER.subtitle}
+              icon={SECTIONS.OFFER.icon}
+              onClick={() => setActiveSection('OFFER')}
+              delay={0}
+            />
+          </div>
+
+          <div className="lg:col-span-1">
+             <Card 
+              title={SECTIONS.PRICING.title} 
+              subtitle={SECTIONS.PRICING.subtitle}
+              icon={SECTIONS.PRICING.icon}
+              onClick={() => setActiveSection('PRICING')}
+              delay={100}
+            />
+          </div>
+
+           <div className="lg:col-span-1">
+             <Card 
+              title={SECTIONS.ROADMAP.title} 
+              subtitle={SECTIONS.ROADMAP.subtitle}
+              icon={SECTIONS.ROADMAP.icon}
+              onClick={() => setActiveSection('ROADMAP')}
+              delay={200}
+            />
+          </div>
+
+          <div className="lg:col-span-2">
+             <Card 
+              title={SECTIONS.CANVAS.title} 
+              subtitle={SECTIONS.CANVAS.subtitle}
+              icon={SECTIONS.CANVAS.icon}
+              onClick={() => setActiveSection('CANVAS')}
+              delay={300}
+            />
+          </div>
+
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-32 border-t border-zinc-900 pt-8 flex justify-between items-center text-zinc-600 text-xs font-mono uppercase tracking-widest">
+          <p>2025 AI Avatar Agency</p>
+          <p>Read Only Mode</p>
+        </footer>
+
+      </div>
+
+      {/* Dynamic Modal Renderer */}
+      <Modal isOpen={!!activeSection} onClose={() => setActiveSection(null)}>
+        {activeSection && SECTIONS[activeSection].content}
+      </Modal>
+
+    </div>
+  );
+}
