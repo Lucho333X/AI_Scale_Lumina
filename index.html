@@ -5,77 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Content Engine - Investor Deck</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (Estilos) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Lucide Icons -->
+    <!-- Lucide Icons (Iconos) -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Custom Fonts -->
+    <!-- Fuentes: Inter y JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
+        /* ESTILOS BASE */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000;
+            background-color: #000; /* Fondo Negro Puro */
             color: #e4e4e7;
             overflow-x: hidden;
         }
         
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Custom Scrollbar Hide */
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        /* Ocultar Scrollbar */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Animations imitating tailwindcss-animate */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideInBottom {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes slideInRight {
-            from { transform: translateX(20px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideInTop {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes zoomIn {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        /* ANIMACIONES */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInBottom { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
         .animate-slide-up { animation: slideInBottom 0.7s ease-out forwards; }
-        .animate-slide-up-delayed { animation: slideInBottom 0.7s ease-out 0.2s forwards; opacity: 0; } /* starts hidden */
         .animate-zoom-in { animation: zoomIn 0.3s ease-out forwards; }
         
+        /* Retrasos */
         .delay-0 { animation-delay: 0ms; }
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
 
-        /* Card Hover Effects */
+        /* Estilos Bento Grid */
         .bento-card {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .bento-card:hover {
-            border-color: #3f3f46; /* zinc-700 */
-            background-color: rgba(24, 24, 27, 0.4); /* zinc-900/40 */
+            border-color: #52525b; /* zinc-600 */
+            background-color: rgba(24, 24, 27, 0.8);
+            transform: translateY(-2px);
         }
         .bento-card:hover .arrow-icon {
             opacity: 1;
@@ -83,127 +62,171 @@
         }
         .bento-card:hover .icon-box {
             color: white;
-            background-color: #27272a; /* zinc-800 */
+            background-color: #27272a;
         }
-        .bento-card:hover .card-title {
-            color: white;
+        .bento-card:hover .card-title { color: white; }
+
+        /* Highlight especial (Clon) */
+        .card-highlight {
+            border-color: #3f3f46;
         }
-        .bento-card:hover .card-subtitle {
-            color: #a1a1aa; /* zinc-400 */
+        .card-highlight:hover {
+            border-color: #fff;
+            box-shadow: 0 0 40px -10px rgba(255, 255, 255, 0.15);
         }
 
-        /* Modal Transitions */
-        #modal-overlay {
-            transition: opacity 0.3s ease;
-        }
-        #modal-content {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        .modal-hidden {
-            pointer-events: none;
-            opacity: 0;
-        }
-        .modal-hidden #modal-content {
-            transform: scale(0.95);
-        }
-        .modal-visible {
-            pointer-events: auto;
-            opacity: 1;
-        }
-        .modal-visible #modal-content {
-            transform: scale(1);
-        }
+        /* Modal */
+        #modal-overlay { transition: opacity 0.3s ease; }
+        #modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+        .modal-hidden { pointer-events: none; opacity: 0; }
+        .modal-hidden #modal-content { transform: scale(0.95); }
+        .modal-visible { pointer-events: auto; opacity: 1; }
+        .modal-visible #modal-content { transform: scale(1); }
 
-        /* Step Line for Roadmap */
-        .step-dot {
-            box-shadow: 0 0 0 4px #000;
-        }
+        .step-dot { box-shadow: 0 0 0 4px #000; }
     </style>
 </head>
 <body class="antialiased selection:bg-white selection:text-black min-h-screen relative">
 
-    <!-- Background Ambience -->
+    <!-- Fondo Ambiental -->
     <div class="fixed inset-0 pointer-events-none z-0">
         <div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-white/[0.03] blur-[120px] rounded-full"></div>
         <div class="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-white/[0.02] blur-[120px] rounded-full"></div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Contenedor Principal -->
     <div class="relative max-w-7xl mx-auto px-6 py-12 md:py-24 z-10">
         
         <!-- Header -->
-        <header class="mb-24 animate-slide-up">
+        <header class="mb-20 animate-slide-up">
             <div class="flex items-center gap-3 mb-6 opacity-60">
-                <div class="w-2 h-2 rounded-full bg-white animate-pulse"></div>
-                <span class="text-xs font-mono tracking-[0.2em] uppercase">Confidential Deck</span>
+                <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                <span class="text-xs font-mono tracking-[0.2em] uppercase">Confidential Investor Deck</span>
             </div>
             <h1 class="text-5xl md:text-8xl font-medium tracking-tighter text-white mb-6">
                 AI Content <br class="hidden md:block" />
                 <span class="text-zinc-500">Engine.</span>
             </h1>
             <p class="text-xl text-zinc-400 max-w-2xl font-light leading-relaxed">
-                Modelo de negocio para la agencia de avatares del futuro. 
+                Modelo de negocio para la agencia del futuro. 
                 Escalable. Automatizada. High-Ticket.
             </p>
         </header>
 
-        <!-- Bento Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-up-delayed opacity-0" style="animation-fill-mode: forwards;">
+        <!-- GRID PRINCIPAL -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             
-            <!-- OFFER Card (Large) -->
-            <button onclick="openModal('OFFER')" class="lg:col-span-2 bento-card group relative flex flex-col items-start justify-between h-64 md:h-80 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-0 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none"></div>
+            <!-- 1. NOTICIA (Contexto) -->
+            <button onclick="openModal('CONTEXT')" class="lg:col-span-2 bento-card group relative flex flex-col items-start justify-between h-64 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-0 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none"></div>
+                <div class="relative z-10 flex justify-between w-full items-start">
+                    <div class="p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
+                        <i data-lucide="newspaper" class="w-6 h-6"></i>
+                    </div>
+                    <span class="bg-red-500/10 text-red-400 border border-red-500/20 px-3 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest">Europol Report</span>
+                </div>
+                <div class="relative z-10 mt-auto">
+                    <h3 class="text-2xl md:text-3xl font-medium text-zinc-300 card-title transition-colors tracking-tight">The 90% Reality</h3>
+                    <p class="mt-2 text-sm text-zinc-500 card-subtitle transition-colors font-medium tracking-wide">El cambio de paradigma es irreversible.</p>
+                </div>
+                <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
+                    <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                </div>
+            </button>
+
+            <!-- 2. PROBLEMA Y SOLUCIÓN -->
+            <button onclick="openModal('SOLUTION')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-64 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-100 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
                 <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
+                    <i data-lucide="zap" class="w-6 h-6"></i>
+                </div>
+                <div class="relative z-10 mt-auto">
+                    <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Zero Friction</h3>
+                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium tracking-wide uppercase">Problema & Solución</p>
+                </div>
+                <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
+                    <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                </div>
+            </button>
+
+            <!-- SEPARADOR -->
+            <div class="lg:col-span-3 mt-8 mb-2 flex items-center gap-4 delay-200 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+                <div class="h-px bg-zinc-900 flex-1"></div>
+                <span class="text-xs font-mono uppercase text-zinc-600 tracking-widest">Estructura de Ofertas</span>
+                <div class="h-px bg-zinc-900 flex-1"></div>
+            </div>
+
+            <!-- 3. OFERTA A: UGC -->
+            <button onclick="openModal('OFFER_A')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-80 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-300 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+                <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
+                    <i data-lucide="users" class="w-6 h-6"></i>
+                </div>
+                <div class="relative z-10 mt-auto">
+                    <span class="text-xs font-mono text-zinc-500 mb-2 block">OPCIÓN A</span>
+                    <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Influencers UGC</h3>
+                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium">Contenido masivo sin tu cara.</p>
+                </div>
+                <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
+                    <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                </div>
+            </button>
+
+            <!-- 4. OFERTA B: CLON (CORE) -->
+            <button onclick="openModal('OFFER_B')" class="lg:col-span-1 bento-card card-highlight group relative flex flex-col items-start justify-between h-80 p-8 w-full bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden text-left delay-400 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+                <div class="absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent pointer-events-none"></div>
+                <div class="absolute top-4 right-4 bg-white text-black text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                    Core Offer
+                </div>
+                <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-white icon-box transition-colors border border-zinc-700">
                     <i data-lucide="fingerprint" class="w-6 h-6"></i>
                 </div>
                 <div class="relative z-10 mt-auto">
-                    <h3 class="text-2xl md:text-3xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Golden Offer</h3>
-                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium tracking-wide uppercase">La Propuesta de Valor</p>
+                    <span class="text-xs font-mono text-zinc-400 mb-2 block">OPCIÓN B</span>
+                    <h3 class="text-2xl md:text-3xl font-medium text-white card-title transition-colors tracking-tight">Clon Digital</h3>
+                    <p class="mt-2 text-sm text-zinc-400 card-subtitle transition-colors font-medium">Marca Personal Automatizada.</p>
                 </div>
                 <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
                     <i data-lucide="arrow-right" class="w-6 h-6"></i>
                 </div>
             </button>
 
-            <!-- PRICING Card -->
-            <button onclick="openModal('PRICING')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-64 md:h-80 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-100 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none"></div>
+            <!-- 5. OFERTA C: CURSOS -->
+            <button onclick="openModal('OFFER_C')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-80 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-500 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
                 <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
-                    <i data-lucide="credit-card" class="w-6 h-6"></i>
+                    <i data-lucide="graduation-cap" class="w-6 h-6"></i>
                 </div>
                 <div class="relative z-10 mt-auto">
-                    <h3 class="text-2xl md:text-3xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Financials</h3>
-                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium tracking-wide uppercase">Precios & Unit Economics</p>
+                    <span class="text-xs font-mono text-zinc-500 mb-2 block">OPCIÓN C</span>
+                    <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Cursos Digitales</h3>
+                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium">Training Corporativo & Info.</p>
                 </div>
                 <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
                     <i data-lucide="arrow-right" class="w-6 h-6"></i>
                 </div>
             </button>
 
-            <!-- ROADMAP Card -->
-            <button onclick="openModal('ROADMAP')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-64 md:h-80 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-200 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none"></div>
+            <!-- 6. ROADMAP -->
+            <button onclick="openModal('ROADMAP')" class="lg:col-span-2 bento-card group relative flex flex-col items-start justify-between h-64 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-500 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
                 <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
                     <i data-lucide="trending-up" class="w-6 h-6"></i>
                 </div>
                 <div class="relative z-10 mt-auto">
-                    <h3 class="text-2xl md:text-3xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Execution</h3>
-                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium tracking-wide uppercase">Roadmap de 90 Días</p>
+                    <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Roadmap de Ejecución</h3>
+                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium">Validación, Tracción & Escala.</p>
                 </div>
                 <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
                     <i data-lucide="arrow-right" class="w-6 h-6"></i>
                 </div>
             </button>
 
-            <!-- CANVAS Card (Wide) -->
-            <button onclick="openModal('CANVAS')" class="lg:col-span-2 bento-card group relative flex flex-col items-start justify-between h-64 md:h-80 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-300 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none"></div>
+            <!-- 7. COMUNIDAD -->
+            <button onclick="openModal('COMMUNITY')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-64 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-500 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-zinc-800/30 via-zinc-950/0 to-zinc-950/0 pointer-events-none"></div>
                 <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
-                    <i data-lucide="layers" class="w-6 h-6"></i>
+                    <i data-lucide="heart" class="w-6 h-6"></i>
                 </div>
                 <div class="relative z-10 mt-auto">
-                    <h3 class="text-2xl md:text-3xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Business Model</h3>
-                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium tracking-wide uppercase">Estructura Operativa</p>
+                    <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Comunidad</h3>
+                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium">El activo real.</p>
                 </div>
                 <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
                     <i data-lucide="arrow-right" class="w-6 h-6"></i>
@@ -215,327 +238,292 @@
         <!-- Footer -->
         <footer class="mt-32 border-t border-zinc-900 pt-8 flex justify-between items-center text-zinc-600 text-xs font-mono uppercase tracking-widest">
             <p>2025 AI Avatar Agency</p>
-            <p>Read Only Mode</p>
+            <p>Confidential Document</p>
         </footer>
 
     </div>
 
-    <!-- MODAL OVERLAY -->
-    <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 modal-hidden bg-black/60 backdrop-blur-2xl">
-        <!-- Close Button (Absolute) -->
-        <button onclick="closeModal()" class="absolute top-6 right-6 md:top-8 md:right-8 z-[60] p-2 rounded-full bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 backdrop-blur-md transition-all">
+    <!-- MODAL -->
+    <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 modal-hidden bg-black/80 backdrop-blur-xl">
+        <button onclick="closeModal()" class="absolute top-6 right-6 md:top-8 md:right-8 z-[60] p-2 rounded-full bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800 transition-all">
             <i data-lucide="x" class="w-5 h-5"></i>
         </button>
-
-        <!-- Clickable Backdrop Area -->
         <div onclick="closeModal()" class="absolute inset-0 z-40"></div>
-
-        <!-- Modal Content Container -->
-        <div id="modal-content" class="relative z-50 w-full max-w-5xl h-auto max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-zinc-800 rounded-2xl shadow-2xl scrollbar-hide">
+        <div id="modal-content" class="relative z-50 w-full max-w-4xl h-auto max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-zinc-800 rounded-2xl shadow-2xl scrollbar-hide">
             <div id="dynamic-content-area" class="p-8 md:p-12 lg:p-16">
-                <!-- Content will be injected here -->
+                <!-- Content injected here -->
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- SCRIPT -->
     <script>
-        // --- DATA CONTENT (From React State) ---
         const SECTIONS = {
-            OFFER: `
-                <div class="space-y-12 animate-slide-up">
-                    <div class="border-l-2 border-white/20 pl-6">
-                        <h2 class="text-3xl md:text-5xl font-medium tracking-tight text-white mb-6">
-                            The AI Avatar Content Engine
+            CONTEXT: `
+                <div class="space-y-8 animate-slide-up">
+                    <div class="border-b border-zinc-800 pb-8">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            <span class="text-xs font-mono uppercase tracking-widest text-red-500">Noticia Global</span>
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-medium tracking-tighter text-white mb-6">
+                            "Para 2026, el 90% del contenido online será generado sintéticamente."
                         </h2>
-                        <p class="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed">
-                            Ayudamos a fundadores a construir una marca personal masiva usando su propio clon de IA.
-                            <br /><br />
-                            <span class="text-white">Publican contenido diario. Generan autoridad. Sin grabar ni un minuto.</span>
+                        <p class="text-xl text-zinc-400 font-light leading-relaxed">
+                            Reporte de <span class="text-white font-medium">Europol</span> sobre innovación tecnológica. Sumado a la <span class="text-white font-medium">"Dead Internet Theory"</span>, confirmamos que más del 50% del tráfico actual ya no es humano.
                         </p>
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/10">
-                        <div>
-                            <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2 block">Problema</span>
-                            <p class="text-zinc-300">Los fundadores no tienen tiempo para grabar, pero necesitan contenido constante para vender.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                        <div class="bg-zinc-900/30 p-6 rounded-lg border border-zinc-800">
+                            <h4 class="text-white font-medium mb-2">La Realidad</h4>
+                            <p class="text-zinc-500 text-sm">El contenido manual ya no puede competir en volumen ni velocidad con los algoritmos generativos.</p>
                         </div>
-                        <div>
-                            <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2 block">Solución</span>
-                            <p class="text-zinc-300">Sistema "Done-For-You": Clonación de voz/cara + Estrategia editorial + Gestión total.</p>
-                        </div>
-                        <div>
-                            <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-2 block">Resultado</span>
-                            <p class="text-zinc-300">30+ piezas de contenido al mes con 0 horas de esfuerzo del cliente.</p>
+                        <div class="bg-zinc-900/30 p-6 rounded-lg border border-zinc-800">
+                            <h4 class="text-emerald-400 font-medium mb-2">La Ventaja</h4>
+                            <p class="text-zinc-500 text-sm">Adoptar esta tecnología hoy no es una opción, es la única manera de mantenerse relevante y visible.</p>
                         </div>
                     </div>
                 </div>
             `,
-            CANVAS: `
-                <div class="space-y-8 animate-zoom-in">
-                    <div class="flex justify-between items-end border-b border-white/10 pb-6">
-                        <h3 class="text-2xl text-white font-medium">Business Canvas</h3>
-                        <span class="text-xs font-mono text-zinc-500">ESTRUCTURA DE AGENCIA DE IA</span>
-                    </div>
-                    
-                    <!-- Canvas Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-px bg-zinc-800 border border-zinc-800 rounded-lg overflow-hidden">
-                        
-                        <!-- Key Partners -->
-                        <div class="col-span-1 md:col-span-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
-                            <div class="flex items-center gap-2 mb-4 text-zinc-500">
-                                <i data-lucide="shuffle" class="w-4 h-4"></i>
-                                <span class="text-xs font-mono uppercase tracking-widest">Socios (Partners)</span>
-                            </div>
-                            <ul class="space-y-3 text-sm text-zinc-400">
-                                <li class="flex gap-2"><span class="text-white">•</span> HeyGen / Synthesia (Motor IA)</li>
-                                <li class="flex gap-2"><span class="text-white">•</span> ElevenLabs (Voz)</li>
-                                <li class="flex gap-2"><span class="text-white">•</span> Freelance Editors Network</li>
-                            </ul>
-                        </div>
-
-                        <!-- Key Activities & Resources -->
-                        <div class="col-span-1 md:col-span-1 bg-black p-0 flex flex-col gap-px">
-                            <div class="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
-                                <div class="flex items-center gap-2 mb-4 text-zinc-500">
-                                    <i data-lucide="cpu" class="w-4 h-4"></i>
-                                    <span class="text-xs font-mono uppercase tracking-widest">Actividades</span>
-                                </div>
-                                <ul class="space-y-2 text-sm text-zinc-400">
-                                    <li>• Setup de Avatar</li>
-                                    <li>• Scripting & Estrategia</li>
-                                    <li>• Generación & Edición</li>
-                                </ul>
-                            </div>
-                            <div class="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors border-t border-zinc-800">
-                                <div class="flex items-center gap-2 mb-4 text-zinc-500">
-                                    <i data-lucide="box" class="w-4 h-4"></i>
-                                    <span class="text-xs font-mono uppercase tracking-widest">Recursos</span>
-                                </div>
-                                <div class="text-sm text-zinc-400">Software IA, SOPs, Equipo Creativo.</div>
-                            </div>
-                        </div>
-
-                        <!-- Value Prop & Relationships -->
-                        <div class="col-span-1 md:col-span-1 bg-black p-0 flex flex-col gap-px">
-                            <div class="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
-                                <div class="flex items-center gap-2 mb-4 text-zinc-500">
-                                    <i data-lucide="users" class="w-4 h-4"></i>
-                                    <span class="text-xs font-mono uppercase tracking-widest">Relaciones</span>
-                                </div>
-                                <ul class="space-y-2 text-sm text-zinc-400">
-                                    <li>• Concierge Service</li>
-                                    <li>• Calls Mensuales</li>
-                                    <li>• Comunicación Asíncrona</li>
-                                </ul>
-                            </div>
-                            <div class="flex-1 bg-black p-6 hover:bg-zinc-950 transition-colors border-t border-zinc-800">
-                                <div class="flex items-center gap-2 mb-4 text-zinc-500">
-                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                                    <span class="text-xs font-mono uppercase tracking-widest">Canales</span>
-                                </div>
-                                <div class="text-sm text-zinc-400">Warm Outbound, LinkedIn, Dogfooding (Nuestro propio avatar).</div>
-                            </div>
-                        </div>
-
-                        <!-- Segments -->
-                        <div class="col-span-1 md:col-span-1 bg-black p-6 hover:bg-zinc-950 transition-colors">
-                            <div class="flex items-center gap-2 mb-4 text-zinc-500">
-                                <i data-lucide="users" class="w-4 h-4"></i>
-                                <span class="text-xs font-mono uppercase tracking-widest">Segmentos</span>
-                            </div>
-                            <div class="space-y-4">
-                                <div>
-                                    <strong class="text-white block text-sm">Founders & CEOs</strong>
-                                    <p class="text-xs text-zinc-500 mt-1">Buscan autoridad sin perder tiempo.</p>
-                                </div>
-                                <div>
-                                    <strong class="text-white block text-sm">Consultores High-Ticket</strong>
-                                    <p class="text-xs text-zinc-500 mt-1">Venden con su imagen.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Financials Bottom Row -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-800 border border-zinc-800 rounded-lg overflow-hidden">
-                        <div class="bg-black p-6">
-                            <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 block mb-2">Estructura de Costos</span>
-                            <p class="text-white text-sm">Software (HeyGen/11Labs), Freelancers (Edición/Copy), Automatización (Make).</p>
-                        </div>
-                        <div class="bg-black p-6">
-                            <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 block mb-2">Flujos de Ingreso</span>
-                            <p class="text-white text-sm">Setup Fee ($1.5k) + Retainer Mensual ($3k - $6k) + Paquetes Puntuales.</p>
-                        </div>
-                    </div>
-                </div>
-            `,
-            PRICING: `
-                <div class="space-y-12 animate-slide-up">
+            SOLUTION: `
+                <div class="space-y-10 animate-slide-up">
                     <div class="text-center md:text-left">
-                        <h3 class="text-3xl text-white font-medium mb-2">Estructura de Ingresos</h3>
-                        <p class="text-zinc-400">Modelo híbrido: High-Ticket Setup + Recurrencia Mensual (MRR)</p>
+                        <h2 class="text-3xl md:text-5xl font-medium tracking-tight text-white mb-4">Problema & Solución</h2>
+                        <p class="text-zinc-400 text-lg">Modelo "Done-For-You". Sin fricción.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Card 1 -->
-                        <div class="group relative p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all duration-300">
-                            <div class="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <i data-lucide="arrow-right" class="w-5 h-5 text-white"></i>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative">
+                        <div class="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-zinc-800 -translate-x-1/2"></div>
+
+                        <!-- Problema -->
+                        <div class="space-y-6">
+                            <span class="text-xs font-mono uppercase tracking-widest text-red-500 mb-2 block">El Cuello de Botella</span>
+                            <div class="space-y-4">
+                                <div class="bg-zinc-900/20 p-4 rounded border border-zinc-800/50">
+                                    <strong class="text-zinc-200 block mb-1">Sin Tiempo</strong>
+                                    <p class="text-zinc-500 text-sm">Founders ocupados no pueden grabar 10h a la semana.</p>
+                                </div>
+                                <div class="bg-zinc-900/20 p-4 rounded border border-zinc-800/50">
+                                    <strong class="text-zinc-200 block mb-1">Inconsistencia</strong>
+                                    <p class="text-zinc-500 text-sm">Sin constancia, el algoritmo te castiga y la marca muere.</p>
+                                </div>
                             </div>
-                            <span class="text-xs font-bold tracking-widest text-zinc-500 uppercase">Setup (One-Time)</span>
-                            <div class="mt-4 mb-2">
-                                <span class="text-3xl font-medium text-white">$1,500</span>
-                                <span class="text-zinc-500 ml-1">- $3,000</span>
+                        </div>
+
+                        <!-- Solución -->
+                        <div class="space-y-6">
+                            <span class="text-xs font-mono uppercase tracking-widest text-emerald-500 mb-2 block">Nuestra Agencia</span>
+                            <div class="space-y-4">
+                                <div class="bg-emerald-900/10 p-4 rounded border border-emerald-500/20">
+                                    <strong class="text-white block mb-1">Cero Grabación</strong>
+                                    <p class="text-zinc-400 text-sm">Gestionamos todo desde casa. Tu avatar trabaja 24/7.</p>
+                                </div>
+                                <div class="bg-emerald-900/10 p-4 rounded border border-emerald-500/20">
+                                    <strong class="text-white block mb-1">Entrega Mensual</strong>
+                                    <p class="text-zinc-400 text-sm">Estrategia, guiones, generación y publicación. Todo incluido.</p>
+                                </div>
                             </div>
-                            <p class="text-sm text-zinc-400 leading-relaxed mb-6">
-                                Cashflow inmediato. Cubre la creación del clon digital, setup de voz y estrategia inicial.
-                            </p>
-                            <ul class="space-y-2 text-xs text-zinc-500 font-mono">
-                                <li class="flex items-center gap-2">OK: Grabación 2-5 min</li>
-                                <li class="flex items-center gap-2">OK: Voz Clonada</li>
-                                <li class="flex items-center gap-2">OK: Manual de Uso</li>
+                        </div>
+                    </div>
+                </div>
+            `,
+            OFFER_A: `
+                <div class="animate-zoom-in">
+                    <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4 block">Oferta Satélite</span>
+                    <h2 class="text-4xl font-medium text-white mb-6">UGC Virtual & Outreach</h2>
+                    <p class="text-zinc-400 text-lg mb-8 leading-relaxed">
+                        Avatares "modelo" para reviews de eCommerce o vídeos de prospección personalizados para B2B.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
+                            <h4 class="text-white font-medium mb-2">Paquetes UGC</h4>
+                            <div class="text-2xl font-bold text-white mb-1">$1,800 - $3,000</div>
+                            <span class="text-xs text-zinc-500 block mb-4">Mensual (15 - 30 Vídeos)</span>
+                            <ul class="text-sm text-zinc-400 space-y-2">
+                                <li>• Sin contratar modelos físicos</li>
+                                <li>• Tests A/B de creatividades</li>
+                                <li>• Reviews y Unboxings AI</li>
+                            </ul>
+                        </div>
+                        <div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
+                            <h4 class="text-white font-medium mb-2">Outreach B2B</h4>
+                            <div class="text-2xl font-bold text-white mb-1">$2,000+</div>
+                            <span class="text-xs text-zinc-500 block mb-4">Setup Sistema</span>
+                            <ul class="text-sm text-zinc-400 space-y-2">
+                                <li>• Vídeos personalizados por lead</li>
+                                <li>• Integración CRM & Email</li>
+                                <li>• Fee por cita agendada</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `,
+            OFFER_B: `
+                <div class="animate-slide-up">
+                    <span class="bg-white text-black text-xs font-bold px-3 py-1 rounded mb-6 inline-block uppercase tracking-wider">Golden Offer</span>
+                    
+                    <h2 class="text-4xl md:text-5xl font-medium text-white mb-4">Clon Digital "Done-For-You"</h2>
+                    <p class="text-xl text-zinc-400 mb-10 max-w-2xl">
+                        Sistema completo de marca personal. Clonamos al fundador para producir contenido diario sin su intervención.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Setup -->
+                        <div class="p-8 rounded-2xl bg-zinc-900 border border-zinc-800">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Fee de Setup</span>
+                                <i data-lucide="settings" class="w-5 h-5 text-zinc-600"></i>
+                            </div>
+                            <div class="text-3xl font-medium text-white mb-2">$1,500 - $3,000</div>
+                            <span class="text-xs text-zinc-500">Pago Único (One-time)</span>
+                            <hr class="border-zinc-800 my-6">
+                            <ul class="space-y-3 text-sm text-zinc-400">
+                                <li class="flex gap-2"><span>•</span> Grabación profesional (2-5 min)</li>
+                                <li class="flex gap-2"><span>•</span> Clonación de Voz Ultra-Realista</li>
+                                <li class="flex gap-2"><span>•</span> Configuración de Avatar 4K</li>
+                                <li class="flex gap-2"><span>•</span> Workshop de Estrategia</li>
                             </ul>
                         </div>
 
-                        <!-- Card 2 - Main -->
-                        <div class="group relative p-8 rounded-2xl bg-white text-black border border-white transition-all duration-300 transform md:-translate-y-4 md:shadow-2xl md:shadow-white/10">
-                            <div class="absolute top-0 right-0 bg-black text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
-                                Core Revenue
+                        <!-- Retainer -->
+                        <div class="p-8 rounded-2xl bg-white text-black border border-white relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-black/5 p-4 rounded-bl-2xl">
+                                <i data-lucide="repeat" class="w-6 h-6 text-black"></i>
                             </div>
-                            <span class="text-xs font-bold tracking-widest text-zinc-400 uppercase">Monthly Retainer</span>
-                            <div class="mt-4 mb-2">
-                                <span class="text-4xl font-semibold">$3,000</span>
-                                <span class="text-zinc-500 ml-1 font-medium">/ mes</span>
-                            </div>
-                            <p class="text-sm text-zinc-600 leading-relaxed mb-6 font-medium">
-                                Ingreso recurrente. Gestión completa "Done-For-You" de la marca personal.
-                            </p>
-                            <ul class="space-y-3 text-xs text-zinc-600 font-mono border-t border-zinc-200 pt-4">
-                                <li class="flex items-center gap-2">✓ 30 Videos Cortos</li>
-                                <li class="flex items-center gap-2">✓ Gestión de Redes</li>
-                                <li class="flex items-center gap-2">✓ Reporte Mensual</li>
+                            <span class="text-xs font-mono uppercase tracking-widest text-zinc-500">Retainer Mensual</span>
+                            <div class="text-3xl font-medium text-black mt-4 mb-2">$2,000 - $6,000</div>
+                            <span class="text-xs text-zinc-500">/ mes (Recurrente)</span>
+                            <hr class="border-zinc-200 my-6">
+                            <ul class="space-y-3 text-sm text-zinc-700 font-medium">
+                                <li class="flex gap-2"><span>✓</span> 20-40 Vídeos Cortos (Reels/TikTok)</li>
+                                <li class="flex gap-2"><span>✓</span> Investigación de Guiones & Hooks</li>
+                                <li class="flex gap-2"><span>✓</span> Edición, Subtítulos y Publicación</li>
+                                <li class="flex gap-2"><span>✓</span> Call Mensual de Estrategia</li>
                             </ul>
                         </div>
-
-                        <!-- Card 3 -->
-                        <div class="group relative p-8 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all duration-300">
-                            <div class="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <i data-lucide="arrow-right" class="w-5 h-5 text-white"></i>
+                    </div>
+                </div>
+            `,
+            OFFER_C: `
+                <div class="animate-zoom-in">
+                    <span class="text-xs font-mono uppercase tracking-widest text-zinc-500 mb-4 block">High Ticket B2B</span>
+                    <h2 class="text-4xl font-medium text-white mb-6">Cursos & Training Corporativo</h2>
+                    <p class="text-zinc-400 text-lg mb-8 leading-relaxed">
+                        Transformamos manuales aburridos en video-cursos dinámicos presentados por avatares.
+                    </p>
+                    <div class="bg-zinc-900 p-8 rounded-xl border border-zinc-800">
+                        <div class="flex flex-col md:flex-row justify-between md:items-center gap-6 mb-8 border-b border-zinc-800 pb-8">
+                            <div>
+                                <h4 class="text-white font-medium text-xl">Proyecto Completo</h4>
+                                <p class="text-zinc-500 text-sm mt-1">Creación de curso (aprox. 45 vídeos)</p>
                             </div>
-                            <span class="text-xs font-bold tracking-widest text-zinc-500 uppercase">Expansion</span>
-                            <div class="mt-4 mb-2">
-                                <span class="text-3xl font-medium text-white">+ Satélites</span>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-white">~$15,000</div>
+                                <span class="text-xs text-zinc-500">Por Proyecto</span>
                             </div>
-                            <p class="text-sm text-zinc-400 leading-relaxed mb-6">
-                                Líneas adicionales para aumentar el LTV (Life Time Value) del cliente.
-                            </p>
-                            <ul class="space-y-2 text-xs text-zinc-500 font-mono">
-                                <li class="flex items-center gap-2">ADD: Outreach Videos</li>
-                                <li class="flex items-center gap-2">ADD: UGC Virtual</li>
-                                <li class="flex items-center gap-2">ADD: Corporate Training</li>
-                            </ul>
+                        </div>
+                        <div class="flex flex-col md:flex-row justify-between md:items-center gap-6">
+                            <div>
+                                <h4 class="text-white font-medium text-xl">Contrato Anual</h4>
+                                <p class="text-zinc-500 text-sm mt-1">Mantenimiento y actualización de módulos</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-3xl font-bold text-white">$20k - $50k</div>
+                                <span class="text-xs text-zinc-500">Anual (Enterprise)</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             `,
             ROADMAP: `
                 <div class="space-y-10 animate-slide-up">
-                    <div class="flex justify-between items-end border-b border-white/10 pb-6">
-                        <h3 class="text-2xl text-white font-medium">Plan de Implementación</h3>
+                    <div class="border-b border-zinc-800 pb-6">
+                        <h3 class="text-3xl text-white font-medium">Roadmap: Primeros 90 Días</h3>
+                        <p class="text-zinc-500 mt-2">Plan de ejecución basado en el documento.</p>
                     </div>
 
                     <div class="space-y-0 relative border-l border-zinc-800 ml-4">
-                        <!-- Step 1 -->
                         <div class="pl-10 pb-12 relative group">
                             <span class="step-dot absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors"></span>
-                            <h4 class="text-lg text-white font-medium mb-1">Mes 1: Validación</h4>
-                            <p class="text-zinc-500 text-sm mb-4">Construcción de cimientos y "Dogfooding".</p>
-                            <div class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
-                                <ul class="space-y-2 text-sm text-zinc-400">
-                                    <li class="flex gap-3"><span class="text-white">01.</span> Definir Oferta Core y Paquetes.</li>
-                                    <li class="flex gap-3"><span class="text-white">02.</span> Crear caso de estudio propio (Tu Avatar).</li>
-                                    <li class="flex gap-3"><span class="text-white">03.</span> Warm Outbound a contactos cercanos.</li>
-                                </ul>
+                            <h4 class="text-lg text-white font-medium mb-1">Mes 1: Validación & "Dogfooding"</h4>
+                            <div class="text-zinc-400 text-sm space-y-2">
+                                <p>• Elegir oferta core (Contenido con Avatar).</p>
+                                <p>• Crear caso de estudio propio (Tu propio Avatar).</p>
+                                <p>• Warm Outbound a contactos cercanos.</p>
                             </div>
                         </div>
 
-                        <!-- Step 2 -->
                         <div class="pl-10 pb-12 relative group">
                             <span class="step-dot absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors"></span>
-                            <h4 class="text-lg text-white font-medium mb-1">Mes 2: Tracción</h4>
-                            <p class="text-zinc-500 text-sm mb-4">Primeros cierres y documentación.</p>
-                            <div class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
-                                <ul class="space-y-2 text-sm text-zinc-400">
-                                    <li class="flex gap-3"><span class="text-white">01.</span> Cerrar 2-3 Clientes en Retainer.</li>
-                                    <li class="flex gap-3"><span class="text-white">02.</span> Crear SOPs (Standard Operating Procedures).</li>
-                                    <li class="flex gap-3"><span class="text-white">03.</span> Contratar Editor Freelance.</li>
-                                </ul>
+                            <h4 class="text-lg text-white font-medium mb-1">Mes 2: Tracción & Sistemas</h4>
+                            <div class="text-zinc-400 text-sm space-y-2">
+                                <p>• Cerrar 2-3 clientes en Retainer Mensual.</p>
+                                <p>• Documentar SOPs (Standard Operating Procedures).</p>
+                                <p>• Contratar Editor Freelance / Generative Creator.</p>
                             </div>
                         </div>
 
-                        <!-- Step 3 -->
                         <div class="pl-10 pb-0 relative group">
                             <span class="step-dot absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-white transition-colors"></span>
                             <h4 class="text-lg text-white font-medium mb-1">Mes 3: Escala</h4>
-                            <p class="text-zinc-500 text-sm mb-4">Optimización y automatización de ventas.</p>
-                            <div class="bg-zinc-900/50 p-4 rounded-lg border border-zinc-800">
-                                <ul class="space-y-2 text-sm text-zinc-400">
-                                    <li class="flex gap-3"><span class="text-white">01.</span> Subir precios basado en resultados.</li>
-                                    <li class="flex gap-3"><span class="text-white">02.</span> Añadir oferta satélite (Outreach/UGC).</li>
-                                    <li class="flex gap-3"><span class="text-white">03.</span> Implementar embudo de ventas simple.</li>
-                                </ul>
+                            <div class="text-zinc-400 text-sm space-y-2">
+                                <p>• Optimizar precios (Subir tickets).</p>
+                                <p>• Añadir ofertas satélite (UGC o Outreach).</p>
+                                <p>• Implementar embudo de ventas simple.</p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            `,
+            COMMUNITY: `
+                <div class="text-center space-y-8 animate-zoom-in py-8">
+                    <div class="inline-flex p-4 rounded-full bg-zinc-900 text-white mb-4">
+                        <i data-lucide="heart" class="w-8 h-8"></i>
+                    </div>
+                    <h2 class="text-4xl text-white font-medium">Comunidad > Contenido</h2>
+                    <p class="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+                        En un océano de contenido sintético, la <span class="text-white font-medium">conexión humana</span> se vuelve el activo más valioso.
+                    </p>
+                    <div class="max-w-xl mx-auto bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 text-left">
+                        <p class="text-zinc-300 text-sm mb-4">
+                            Usamos la IA para automatizar la "atracción" (contenido), liberando al fundador para que se enfoque 100% en la "retención" (comunidad y relaciones reales).
+                        </p>
+                        <p class="text-emerald-400 font-mono text-xs uppercase tracking-widest text-center mt-6">
+                            Automate Content. Scale Relationships.
+                        </p>
                     </div>
                 </div>
             `
         };
 
-        // --- FUNCTIONS ---
-
+        // --- FUNCIONES JS ---
         function openModal(sectionId) {
             const overlay = document.getElementById('modal-overlay');
             const contentArea = document.getElementById('dynamic-content-area');
-            
-            // Inject Content
             contentArea.innerHTML = SECTIONS[sectionId];
-            
-            // Re-render icons for new content
             lucide.createIcons();
-
-            // Show Modal
             overlay.classList.remove('modal-hidden');
             overlay.classList.add('modal-visible');
-            
-            // Prevent body scroll
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             const overlay = document.getElementById('modal-overlay');
-            
-            // Hide Modal
             overlay.classList.remove('modal-visible');
             overlay.classList.add('modal-hidden');
-
-            // Restore body scroll
             document.body.style.overflow = 'auto';
-            
-            // Clear content after animation to be clean (optional, but good for memory)
-            setTimeout(() => {
-                document.getElementById('dynamic-content-area').innerHTML = '';
-            }, 300);
+            setTimeout(() => { document.getElementById('dynamic-content-area').innerHTML = ''; }, 300);
         }
 
-        // Close on Escape key
         document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") {
-                closeModal();
-            }
+            if (event.key === "Escape") closeModal();
         });
 
-        // Initialize Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
         lucide.createIcons();
     </script>
 </body>
