@@ -276,7 +276,7 @@
 
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL DE CONTENIDO GENERAL -->
     <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 modal-hidden bg-black/80 backdrop-blur-xl">
         <button onclick="closeModal()" class="absolute top-6 right-6 md:top-8 md:right-8 z-[60] p-2 rounded-full bg-zinc-900/80 text-zinc-400 hover:text-white hover:bg-zinc-800 border border-zinc-800 transition-all">
             <i data-lucide="x" class="w-5 h-5"></i>
@@ -286,6 +286,21 @@
             <div id="dynamic-content-area" class="p-8 md:p-12 lg:p-16">
                 <!-- Content injected here -->
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL REPRODUCTOR DE VIDEO (NUEVO) -->
+    <div id="video-player-overlay" class="fixed inset-0 z-[100] hidden bg-black flex items-center justify-center p-4 md:p-12 transition-opacity duration-300">
+        <!-- Botón cerrar reproductor -->
+        <button onclick="closeVideoPlayer()" class="absolute top-6 right-6 z-[110] p-4 rounded-full bg-zinc-900/50 text-white hover:bg-zinc-800 backdrop-blur-md transition-all border border-zinc-700">
+            <i data-lucide="x" class="w-8 h-8"></i>
+        </button>
+        <!-- Contenedor del video -->
+        <div class="relative w-full max-w-7xl aspect-video bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800">
+             <video id="main-video-player" controls class="w-full h-full object-contain">
+                <source src="" type="video/mp4">
+                Tu navegador no soporta video.
+            </video>
         </div>
     </div>
 
@@ -604,19 +619,15 @@
 
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         ${Array.from({length: 10}, (_, i) => `
-                            <div class="group relative bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 aspect-[9/16] cursor-pointer hover:border-zinc-600 transition-all">
-                                <video 
-                                    controls 
-                                    preload="none" 
-                                    class="w-full h-full object-cover"
-                                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 1200'%3E%3Crect fill='%2318181b' width='800' height='1200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%2352525b'%3EVideo ${i + 1}%3C/text%3E%3C/svg%3E"
-                                >
-                                    <source src="video${i + 1}.mp4" type="video/mp4">
-                                    Tu navegador no soporta video.
-                                </video>
-                                <div class="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none group-hover:bg-transparent transition-all">
-                                    <div class="bg-white/10 backdrop-blur-md p-3 rounded-full group-hover:scale-110 transition-transform">
-                                         <i data-lucide="play" class="w-6 h-6 text-white fill-white"></i>
+                            <div onclick="openFullscreenVideo('video${i + 1}.mp4')" class="group relative bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 aspect-[9/16] cursor-pointer hover:border-emerald-500/50 transition-all">
+                                <div class="absolute inset-0 flex items-center justify-center bg-zinc-900/20">
+                                    <video muted class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                        <source src="video${i + 1}.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-transparent transition-all">
+                                         <div class="bg-white/10 backdrop-blur-md p-3 rounded-full group-hover:scale-110 transition-transform shadow-lg border border-white/10">
+                                              <i data-lucide="maximize-2" class="w-6 h-6 text-white"></i>
+                                         </div>
                                     </div>
                                 </div>
                                 <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
@@ -634,22 +645,10 @@
         function openModal(sectionId) {
             const overlay = document.getElementById('modal-overlay');
             const contentArea = document.getElementById('dynamic-content-area');
+            
             contentArea.innerHTML = SECTIONS[sectionId];
             lucide.createIcons();
             
-            // Ocultar iconos de play superpuestos al reproducir (simple fix)
-            const videos = contentArea.querySelectorAll('video');
-            videos.forEach(video => {
-                video.addEventListener('play', function() {
-                    const overlay = this.nextElementSibling;
-                    if(overlay) overlay.style.display = 'none';
-                });
-                video.addEventListener('pause', function() {
-                     const overlay = this.nextElementSibling;
-                     if(overlay) overlay.style.display = 'flex';
-                });
-            });
-
             overlay.classList.remove('modal-hidden');
             overlay.classList.add('modal-visible');
             document.body.style.overflow = 'hidden';
@@ -662,9 +661,41 @@
             document.body.style.overflow = 'auto';
             setTimeout(() => { document.getElementById('dynamic-content-area').innerHTML = ''; }, 300);
         }
+        
+        // --- FUNCIONES REPRODUCTOR DE VIDEO ---
+        function openFullscreenVideo(src) {
+            const playerOverlay = document.getElementById('video-player-overlay');
+            const videoElement = document.getElementById('main-video-player');
+            
+            // Asignar fuente y mostrar
+            videoElement.src = src;
+            playerOverlay.classList.remove('hidden');
+            
+            // Animación de entrada
+            setTimeout(() => {
+                playerOverlay.classList.remove('opacity-0');
+            }, 10);
+            
+            // Reproducir
+            videoElement.play().catch(e => console.log("Autoplay prevent by browser policy", e));
+        }
 
+        function closeVideoPlayer() {
+            const playerOverlay = document.getElementById('video-player-overlay');
+            const videoElement = document.getElementById('main-video-player');
+            
+            // Pausar y limpiar
+            videoElement.pause();
+            playerOverlay.classList.add('hidden');
+            videoElement.src = "";
+        }
+
+        // Cerrar con Escape (ambos modales)
         document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") closeModal();
+            if (event.key === "Escape") {
+                closeModal();
+                closeVideoPlayer();
+            }
         });
 
         lucide.createIcons();
