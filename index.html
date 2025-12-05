@@ -240,8 +240,8 @@
                 </div>
             </button>
 
-            <!-- 8. COMUNIDAD (Full Width) -->
-            <button onclick="openModal('COMMUNITY')" class="lg:col-span-3 bento-card group relative flex flex-col items-center justify-center h-48 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-center delay-500 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+            <!-- 8. COMUNIDAD (Col 2) -->
+            <button onclick="openModal('COMMUNITY')" class="lg:col-span-2 bento-card group relative flex flex-col items-center justify-center h-48 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-center delay-500 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-800/30 via-zinc-950/0 to-zinc-950/0 pointer-events-none"></div>
                 <div class="relative z-10 p-3 rounded-full bg-zinc-900/50 text-zinc-400 mb-4 icon-box transition-colors">
                     <i data-lucide="heart" class="w-6 h-6"></i>
@@ -249,6 +249,20 @@
                 <div class="relative z-10">
                     <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Comunidad > Contenido</h3>
                     <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium">El activo final donde reside el valor real.</p>
+                </div>
+            </button>
+
+            <!-- 9. PRUEBAS (Col 1) -->
+            <button onclick="openModal('SAMPLES')" class="lg:col-span-1 bento-card group relative flex flex-col items-start justify-between h-48 p-8 w-full bg-zinc-950 border border-zinc-900 rounded-xl overflow-hidden text-left delay-500 animate-slide-up opacity-0" style="animation-fill-mode: forwards;">
+                <div class="relative z-10 p-3 rounded-lg bg-zinc-900/50 text-zinc-400 icon-box transition-colors">
+                    <i data-lucide="play-circle" class="w-6 h-6"></i>
+                </div>
+                <div class="relative z-10 mt-auto">
+                    <h3 class="text-2xl font-medium text-zinc-300 card-title transition-colors tracking-tight">Pruebas / Demos</h3>
+                    <p class="mt-2 text-sm text-zinc-600 card-subtitle transition-colors font-medium">Ver ejemplos reales.</p>
+                </div>
+                <div class="arrow-icon absolute bottom-8 right-8 opacity-0 transform translate-x-4 transition-all duration-500 text-white">
+                    <i data-lucide="arrow-right" class="w-6 h-6"></i>
                 </div>
             </button>
 
@@ -575,6 +589,44 @@
                         </p>
                     </div>
                 </div>
+            `,
+            SAMPLES: `
+                <div class="animate-slide-up space-y-8">
+                     <div class="flex items-center gap-3 mb-6 text-zinc-500">
+                        <i data-lucide="play-circle" class="w-6 h-6"></i>
+                        <span class="text-xs font-mono uppercase tracking-widest">Galería de Pruebas</span>
+                    </div>
+                    
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-medium text-white mb-4">Resultados Reales</h2>
+                        <p class="text-zinc-400">Selecciona un video para ver la calidad de nuestros avatares.</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        ${Array.from({length: 10}, (_, i) => `
+                            <div class="group relative bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 aspect-[9/16] cursor-pointer hover:border-zinc-600 transition-all">
+                                <video 
+                                    controls 
+                                    preload="none" 
+                                    class="w-full h-full object-cover"
+                                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 1200'%3E%3Crect fill='%2318181b' width='800' height='1200'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%2352525b'%3EVideo ${i + 1}%3C/text%3E%3C/svg%3E"
+                                >
+                                    <source src="video${i + 1}.mp4" type="video/mp4">
+                                    Tu navegador no soporta video.
+                                </video>
+                                <div class="absolute inset-0 flex items-center justify-center bg-black/40 pointer-events-none group-hover:bg-transparent transition-all">
+                                    <div class="bg-white/10 backdrop-blur-md p-3 rounded-full group-hover:scale-110 transition-transform">
+                                         <i data-lucide="play" class="w-6 h-6 text-white fill-white"></i>
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent">
+                                    <span class="text-xs font-mono text-white">Video ${i + 1}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p class="text-center text-xs text-zinc-600 mt-8 font-mono">Archivos requeridos: video1.mp4 ... video10.mp4 en la misma carpeta.</p>
+                </div>
             `
         };
 
@@ -584,6 +636,20 @@
             const contentArea = document.getElementById('dynamic-content-area');
             contentArea.innerHTML = SECTIONS[sectionId];
             lucide.createIcons();
+            
+            // Ocultar iconos de play superpuestos al reproducir (simple fix)
+            const videos = contentArea.querySelectorAll('video');
+            videos.forEach(video => {
+                video.addEventListener('play', function() {
+                    const overlay = this.nextElementSibling;
+                    if(overlay) overlay.style.display = 'none';
+                });
+                video.addEventListener('pause', function() {
+                     const overlay = this.nextElementSibling;
+                     if(overlay) overlay.style.display = 'flex';
+                });
+            });
+
             overlay.classList.remove('modal-hidden');
             overlay.classList.add('modal-visible');
             document.body.style.overflow = 'hidden';
